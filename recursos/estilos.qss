@@ -1,0 +1,54 @@
+/* Fondo general */
+QWidget {
+    background-color: #121212;
+    color: #E0E0E0;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 14px;
+}
+
+/* Botones */
+QPushButton {
+    background-color: #1E1E1E;
+    border: 1px solid #3C3C3C;
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+QPushButton:hover {
+    background-color: #2E2E2E;
+}
+QPushButton:pressed {
+    background-color: #3C3C3C;
+}
+
+/* Campos de texto */
+QLineEdit, QDoubleSpinBox, QSpinBox, QPlainTextEdit {
+    background-color: #1E1E1E;
+    color: #E0E0E0;
+    border: 1px solid #3C3C3C;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+/* Tablas */
+QTableWidget {
+    background-color: #1E1E1E;
+    gridline-color: #333;
+    alternate-background-color: #161616;
+}
+QHeaderView::section {
+    background-color: #1A1A1A;
+    color: #CCCCCC;
+    border: 1px solid #2C2C2C;
+}
+
+/* Scrollbars */
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #121212;
+    border: none;
+    width: 10px;
+    margin: 0px;
+}
+QScrollBar::handle:vertical, QScrollBar::handle:horizontal {
+    background: #555;
+    border-radius: 4px;
+}
