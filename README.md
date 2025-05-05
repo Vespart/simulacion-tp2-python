@@ -1,0 +1,14 @@
+# Para ejecutar el codigo
+
+1. Crear un entorno virtual (opcional pero recomendado):
+```bash
+python3 -m venv venv # Creas el VENV
+source venv/bin/activate  # Linux/macOS TODO LO QUE HAGAS EN PYTHON DEBE SER CON EL VENV ACTIVADO CON ESTOS COMANDOS
+venv\Scripts\activate     # Windows
+
+2. Instala la dependencias
+
+pip install -r requirements.txt
+
+3. Ejecuta el codigo
+python main.py
