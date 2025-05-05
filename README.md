@@ -13,4 +13,6 @@ pip install -r requirements.txt
 ```
 
 3. Ejecuta el codigo
+```bash
 python main.py
+```
