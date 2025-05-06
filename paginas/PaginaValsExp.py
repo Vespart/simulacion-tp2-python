@@ -1,13 +1,14 @@
-from PyQt5.QtWidgets import QDoubleSpinBox, QLabel, QPushButton
+from PyQt5.QtWidgets import QDoubleSpinBox, QLabel
 from .PaginaBase import PaginaBase
 
 
 class PaginaValsExp(PaginaBase):
-    def __init__(self, cantidad, callback_generado, callback_volver, callback_cerrar):
+    def __init__(self, cantidad, intervalos, callback_generado, callback_volver, callback_cerrar):
         super().__init__("Parametros para Exponencial Negativa",
                          callback_volver, callback_cerrar)
         self.cantidad = cantidad
         self.callback = callback_generado
+        self.intervalos = intervalos
 
         self.entrada_lmd = QDoubleSpinBox()
         self.entrada_lmd.setDecimals(4)
@@ -23,4 +24,4 @@ class PaginaValsExp(PaginaBase):
 
     def generar(self):
         lmd = self.entrada_lmd.value()
-        self.callback("Exponencial Negativa", self.cantidad, lmd)
+        self.callback("Exponencial Negativa", self.cantidad, self.intervalos, lmd)
