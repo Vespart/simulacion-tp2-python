@@ -7,22 +7,28 @@ from paginas.PaginaValsNorm import PaginaValsNorm
 from paginas.PaginaValsUnif import PaginaValsUnif
 from paginas.PaginaResultados import PaginaResultados
 from core.generadores import generar_numeros_pseudoaleatorios, darDistExp, darDistNorm, darDistUnifAB
-
+from core.utilidades import aplicar_estilo
 
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Generador de Variables Aleatorias")
-        self.setGeometry(100, 100, 800, 600)
+        self.setGeometry(100, 100, 800, 700)
 
-        layout = QVBoxLayout()
+        self.tema_actual = "oscuro"  # default
+
+        # Layout principal
+        main_layout = QVBoxLayout()
+        self.setLayout(main_layout)
+
+        # Stack principal con las páginas
         self.stack = QStackedWidget()
-        layout.addWidget(self.stack)
-        self.setLayout(layout)
+        main_layout.addWidget(self.stack)
 
+        # Página inicial
         self.pagina_inicio = PaginaInicio(
             self.elegir_dist, self.volver, self.cerrar_aplicacion)
-        self.stack.addWidget(self.pagina_inicio)
+        self.stack.addWidget(self.pagina_inicio)            
 
     def elegir_dist(self):
         pagina_elegir = PaginaElegirDist(
@@ -30,19 +36,20 @@ class MainWindow(QWidget):
         self.stack.addWidget(pagina_elegir)
         self.stack.setCurrentWidget(pagina_elegir)
 
-    def ir_a_parametros(self, distribucion, cantidad):
+    def ir_a_parametros(self, distribucion, cantidad, intervalos):
         self.distribucion = distribucion
         self.cantidad = cantidad
+        self.intervalos = intervalos
 
         if distribucion == "Normal":
             pagina = PaginaValsNorm(
-                cantidad, self.ir_a_resultados, self.volver, self.cerrar_aplicacion)
+                cantidad, intervalos, self.ir_a_resultados, self.volver, self.cerrar_aplicacion)
         elif distribucion == "Exponencial Negativa":
             pagina = PaginaValsExp(
-                cantidad, self.ir_a_resultados, self.volver, self.cerrar_aplicacion)
+                cantidad, intervalos, self.ir_a_resultados, self.volver, self.cerrar_aplicacion)
         elif distribucion == "Uniforme":
             pagina = PaginaValsUnif(
-                cantidad, self.ir_a_resultados, self.volver, self.cerrar_aplicacion)
+                cantidad, intervalos, self.ir_a_resultados, self.volver, self.cerrar_aplicacion)
 
         self.stack.addWidget(pagina)
         self.stack.setCurrentWidget(pagina)
@@ -50,14 +57,14 @@ class MainWindow(QWidget):
     def ir_a_resultados(self, tipo, cantidad, *parametros):
         datos = generar_numeros_pseudoaleatorios(cantidad)
         if tipo == "Normal":
-            datos = darDistNorm(datos, *parametros)
+            datos = darDistNorm(datos, *parametros[1:])
         elif tipo == "Exponencial Negativa":
-            datos = darDistExp(datos, *parametros)
+            datos = darDistExp(datos, *parametros[1:])
         elif tipo == "Uniforme":
-            datos = darDistUnifAB(datos, *parametros)
+            datos = darDistUnifAB(datos, *parametros[1:])
 
         pagina_resultados = PaginaResultados(
-            self.volver, self.cerrar_aplicacion, datos, tipo)
+            self.volver, self.cerrar_aplicacion, datos, tipo, self.intervalos)
         self.stack.addWidget(pagina_resultados)
         self.stack.setCurrentWidget(pagina_resultados)
 
@@ -69,16 +76,10 @@ class MainWindow(QWidget):
     def cerrar_aplicacion(self):
         QApplication.quit()
 
-
-def aplicar_estilo(qapp, ruta="./recursos/estilos.qss"):
-    with open(ruta, "r") as f:
-        estilo = f.read()
-        qapp.setStyleSheet(estilo)
-
-
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    aplicar_estilo(app)
+    aplicar_estilo(app, modo="oscuro")
+    
     ventana = MainWindow()
     ventana.show()
     sys.exit(app.exec())

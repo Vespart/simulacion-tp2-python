@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QLabel, QSpinBox, QComboBox, QPushButton
+from PyQt5.QtWidgets import QLabel, QSpinBox, QComboBox
 from .PaginaBase import PaginaBase
 
 
@@ -16,19 +16,38 @@ class PaginaElegirDist(PaginaBase):
         self.spin.setMaximum(1000000)
         self.spin.setValue(100)
 
+        self.intervalos_combo = QComboBox()
+        self.intervalos_combo.addItems(["10", "15", "20", "25"])
+
         self.set_boton_extra_texto("Continuar")
         self.conectar_boton_extra(self.enviar_datos)
 
-        self.agregar_widget(
-            QLabel("Seleccione una distribucion con la que quiera generar los valores: "))
+        label_input_dist = QLabel("Seleccione una distribucion con la que quiera generar los valores: ")
+        label_input_dist.setWordWrap(True)
+        self.agregar_widget(label_input_dist)
         self.agregar_widget(self.combo)
-        self.agregar_widget(
-            QLabel("Ingrese la cantidad de valores que desea generar:"))
+        self.agregar_widget(QLabel(" "))
+        
+        label_intervalos = QLabel("Seleccione la cantidad de intervalos para el histograma:")
+        label_intervalos.setWordWrap(True)
+        self.agregar_widget(label_intervalos)
+        self.agregar_widget(self.intervalos_combo)
+        self.agregar_widget(QLabel(" "))
+        
+        label_input_val = QLabel("Ingrese la cantidad de valores que desea generar (1 a 1.000.000):")
+        label_input_val.setWordWrap(True)
+        self.agregar_widget(label_input_val)
         self.agregar_widget(self.spin)
-        self.agregar_widget(QLabel(
-            "(Para la distribucion Normal elija un numero par o sera elegido el proximo numero par a su valor ingresado)"))
+        
+        label_aviso = QLabel(
+            "(Para la distribución Normal elija un número par o será elegido el próximo número par a su valor ingresado)"
+        )
+        label_aviso.setWordWrap(True)
+        self.agregar_widget(label_aviso)
 
     def enviar_datos(self):
         dist = self.combo.currentText()
         cantidad = self.spin.value()
-        self.callback(dist, cantidad)
+        intervalos = int(self.intervalos_combo.currentText())
+        self.callback(dist, cantidad, intervalos)
+
