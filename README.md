@@ -1,5 +1,7 @@
 # Para ejecutar el codigo
 
+El proyecto corre para Python 3.12.*
+
 1. Crear un entorno virtual (opcional pero recomendado):
 ```bash
 python3 -m venv venv # Creas el VENV
