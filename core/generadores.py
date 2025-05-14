@@ -20,13 +20,19 @@ def darDistExp(nums, lmd):
 
 def darDistNorm(nums, media, desv):
     for i in range(0, len(nums) - 1, 2):
-        num1 = nums[i]
-        num2 = nums[i + 1] * 2 * pi
-        n1 = ((sqrt((-2) * (log(num1))) * cos(num2)) * desv) + media
-        n2 = ((sqrt((-2) * (log(num1))) * sin(num2)) * desv) + media
-        nums[i] = round(n1, 4)
-        nums[i + 1] = round(n2, 4)
+        if i == len(nums) - 1 and i % 2 != 0:
+            num1 = nums[i]
+            num2 = random.random() * 2 * pi
+            n1 = ((sqrt((-2) * (log(num1))) * cos(num2)) * desv) + media
+            nums[i] = n1
+        else:
+            num1 = nums[i]
+            num2 = nums[i + 1] * 2 * pi
 
+            n1 = ((sqrt((-2) * (log(num1))) * cos(num2)) * desv) + media
+            n2 = ((sqrt((-2) * (log(num1))) * sin(num2)) * desv) + media
+            nums[i] = round(n1, 4)
+            nums[i + 1] = round(n2, 4)
     return nums
 
 
