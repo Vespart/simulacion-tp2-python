@@ -38,6 +38,7 @@ def darDistNorm(nums, media, desv):
 
 def darDistUnifAB(nums, A, B):
     for i in range(len(nums)):
+        # X = A + (B - A) * RND
         num = round((B - A) * nums[i] + A, 4)
         nums[i] = num
     return nums

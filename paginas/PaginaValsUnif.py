@@ -1,13 +1,14 @@
-from PyQt5.QtWidgets import QLabel, QSpinBox, QPushButton
+from PyQt5.QtWidgets import QLabel, QSpinBox
 from .PaginaBase import PaginaBase
 
 
 class PaginaValsUnif(PaginaBase):
-    def __init__(self, cantidad, callback_generado, callback_volver, callback_cerrar):
+    def __init__(self, cantidad, intervalos, callback_generado, callback_volver, callback_cerrar):
         super().__init__("Parametros de Uniforme entre A y B",
                          callback_volver, callback_cerrar)
         self.cantidad = cantidad
         self.callback = callback_generado
+        self.intervalos = intervalos
 
         self.entrada_a = QSpinBox()
         self.entrada_a.setValue(0)
@@ -23,6 +24,8 @@ class PaginaValsUnif(PaginaBase):
 
         self.agregar_widget(QLabel("Ingrese el valor de A: "))
         self.agregar_widget(self.entrada_a)
+        self.agregar_widget(QLabel(" "))
+        
         self.agregar_widget(QLabel("Ingrese el valor de B: "))
         self.agregar_widget(self.entrada_b)
 
@@ -30,7 +33,7 @@ class PaginaValsUnif(PaginaBase):
         a = self.entrada_a.value()
         b = self.entrada_b.value()
 
-        self.callback("Uniforme", self.cantidad, a, b)
+        self.callback("Uniforme", self.cantidad, self.intervalos, a, b)
 
     def actualizar_min_b(self):
         nuevo_min = self.entrada_a.value() + 1
