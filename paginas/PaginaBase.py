@@ -1,12 +1,17 @@
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout, QSpacerItem, QSizePolicy
-from PyQt5.QtCore import Qt
-
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout, QApplication
+from core.utilidades import aplicar_estilo
 
 class PaginaBase(QWidget):
     def __init__(self, titulo=None, callback_volver=None, callback_cerrar=None):
         super().__init__()
         self.callback_volver = callback_volver
         self.callback_cerrar = callback_cerrar
+
+        self.tema_actual = "oscuro"
+
+        self.boton_tema = QPushButton("L")
+        self.boton_tema.setFixedSize(35, 32)
+        self.boton_tema.clicked.connect(self.toggle_tema)
 
         self.layout = QVBoxLayout()
         self.setLayout(self.layout)
@@ -18,6 +23,7 @@ class PaginaBase(QWidget):
         self.boton_cerrar.clicked.connect(self.cerrar)
 
         header_layout = QHBoxLayout()
+        header_layout.addWidget(self.boton_tema)
         header_layout.addStretch()
         header_layout.addWidget(self.boton_cerrar)
 
@@ -60,3 +66,14 @@ class PaginaBase(QWidget):
 
     def conectar_boton_extra(self, funcion):
         self.boton_extra.clicked.connect(funcion)
+
+    def toggle_tema(self):
+        app = QApplication.instance()
+        if self.tema_actual == "claro":
+            self.tema_actual = "oscuro"
+            self.boton_tema.setText("L")
+            aplicar_estilo(app, modo="oscuro")
+        else:
+            self.tema_actual = "claro"
+            self.boton_tema.setText("D")
+            aplicar_estilo(app, modo="claro")

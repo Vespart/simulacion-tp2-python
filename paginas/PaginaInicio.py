@@ -1,4 +1,3 @@
-from PyQt5.QtWidgets import QLabel
 from .PaginaBase import PaginaBase
 
 
