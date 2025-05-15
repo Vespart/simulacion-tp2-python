@@ -2,13 +2,13 @@ from PyQt5.QtWidgets import (
     QLabel,
     QPushButton,
     QHBoxLayout,
-    QStackedWidget, 
+    QStackedWidget,
     QTableWidget,
     QTableWidgetItem,
     QPlainTextEdit,
     QHeaderView,
     QWidget
-    )
+)
 from PyQt5.QtCore import Qt
 from .PaginaBase import PaginaBase
 from sympy import nextprime
@@ -71,7 +71,6 @@ class PaginaResultados(PaginaBase):
         self.agregar_widget(self.stack)
 
     def crear_tabla(self):
-        intervalos = nextprime(self.redondear(sqrt(len(self.datos))))
         tabla = QTableWidget(self.intervalos, 4)
         tabla.setHorizontalHeaderLabels(
             ["Intervalo N°", "Límite Inferior", "Límite Superior", "Frecuencia Observada"])
@@ -137,19 +136,18 @@ class PaginaResultados(PaginaBase):
         ax.tick_params(axis='both', labelsize=10)
         ax.grid(True, linestyle='--', linewidth=0.5, alpha=0.5)
         ax.set_facecolor('#ffffff')  # fondo del gráfico
-        
+
         fig.subplots_adjust(bottom=0.18)
-        
+
         return canvas
 
-    
     def crear_serie(self):
         self.texto_serie = QPlainTextEdit()
         self.texto_serie.setReadOnly(True)
 
         self.pagina_actual = 0
         self.items_por_pagina = 10000
-        self.total_paginas = (len(self.datos) - 1) // self.items_por_pagina + 1        
+        self.total_paginas = (len(self.datos) - 1) // self.items_por_pagina + 1
         self.mostrar_pagina()
 
         return self.texto_serie
@@ -158,7 +156,8 @@ class PaginaResultados(PaginaBase):
         inicio = self.pagina_actual * self.items_por_pagina
         fin = min(len(self.datos), inicio + self.items_por_pagina)
         fragmento = ', '.join(f"{x:.4f}" for x in self.datos[inicio:fin])
-        self.texto_serie.setPlainText(f"[{inicio + 1}-{fin}] de {len(self.datos)}:\n{fragmento}")
+        self.texto_serie.setPlainText(
+            f"[{inicio + 1}-{fin}] de {len(self.datos)}:\n{fragmento}")
 
     def pagina_anterior(self):
         if self.pagina_actual > 0:
@@ -186,13 +185,12 @@ class PaginaResultados(PaginaBase):
 
     def exportar_serie(self):
         try:
-            fecha =  datetime.now().strftime('%Y%m%d_%H%M%S')
+            fecha = datetime.now().strftime('%Y%m%d_%H%M%S')
             nom_archivo = f"serie_exportada_{fecha}.txt"
             with open(nom_archivo, "w") as f:
                 f.write(', '.join(f"{x:.4f}" for x in self.datos))
         except Exception as e:
             print("Error al exportar:", e)
-
 
     def mostrar_tabla(self):
         self.stack.setCurrentIndex(0)
