@@ -9,6 +9,7 @@ from paginas.PaginaResultados import PaginaResultados
 from core.generadores import generar_numeros_pseudoaleatorios, darDistExp, darDistNorm, darDistUnifAB
 from core.utilidades import aplicar_estilo
 
+
 class MainWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -28,7 +29,7 @@ class MainWindow(QWidget):
         # Página inicial
         self.pagina_inicio = PaginaInicio(
             self.elegir_dist, self.volver, self.cerrar_aplicacion)
-        self.stack.addWidget(self.pagina_inicio)            
+        self.stack.addWidget(self.pagina_inicio)
 
     def elegir_dist(self):
         pagina_elegir = PaginaElegirDist(
@@ -76,10 +77,11 @@ class MainWindow(QWidget):
     def cerrar_aplicacion(self):
         QApplication.quit()
 
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     aplicar_estilo(app, modo="oscuro")
-    
+
     ventana = MainWindow()
     ventana.show()
     sys.exit(app.exec())

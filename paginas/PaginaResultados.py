@@ -16,6 +16,7 @@ from math import sqrt
 from datetime import datetime
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+import numpy as np
 
 
 class PaginaResultados(PaginaBase):
@@ -112,32 +113,38 @@ class PaginaResultados(PaginaBase):
         return tabla
 
     def crear_histograma(self):
-        fig = Figure(figsize=(6, 4), facecolor='#f9f9f9')  # fondo claro
+        fig = Figure(figsize=(6, 4), facecolor='#f9f9f9')
         canvas = FigureCanvas(fig)
         ax = fig.add_subplot(111)
 
-        # Estilo de barras
-        n, bins, patches = ax.hist(
+        # ✅ Calcular bins (bordes) explícitamente
+        frecuencias, bordes = np.histogram(self.datos, bins=self.intervalos)
+
+        # Dibujar histograma con los bordes definidos
+        ax.hist(
             self.datos,
-            bins=self.intervalos,
+            bins=bordes,
             edgecolor='white',
             linewidth=1.2,
-            color='#5c7cfa',   # azul violeta suave
+            color='#5c7cfa',
             alpha=0.9
         )
 
-        # Títulos con estilo
-        ax.set_title(f"Histograma de Frecuencias de Distribucion {self.distribucion}", fontsize=14,
-                     fontweight='bold', color='#343a40')
-        ax.set_xlabel("Valores", fontsize=12)
-        ax.set_ylabel("Frecuencia Observada", fontsize=12)
+        # Mostrar los límites de los intervalos en el eje X
+        etiquetas = [f"{b:.2f}" for b in bordes]
+        ax.set_xticks(bordes)
+        ax.set_xticklabels(etiquetas, rotation=45, ha='right', fontsize=9)
 
-        # Ejes con estilo
+        # Estética
+        ax.set_title(f"Histograma de Frecuencias de Distribución {self.distribucion}", fontsize=14,
+                     fontweight='bold', color='#343a40')
+        ax.set_xlabel("Límites de Intervalos", fontsize=12)
+        ax.set_ylabel("Frecuencia Observada", fontsize=12)
         ax.tick_params(axis='both', labelsize=10)
         ax.grid(True, linestyle='--', linewidth=0.5, alpha=0.5)
-        ax.set_facecolor('#ffffff')  # fondo del gráfico
+        ax.set_facecolor('#ffffff')
 
-        fig.subplots_adjust(bottom=0.18)
+        fig.subplots_adjust(bottom=0.25)
 
         return canvas
 
